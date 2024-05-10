@@ -8,14 +8,14 @@
 {{end}}
 
 {{define "timing"}}
-<div class="w-full grid grid-cols-[2fr_1fr] font-bold">
+<div class="w-full grid grid-cols-[2fr_1fr]">
     <div>
         <span>{{.StartString}}</span>
         <span>-</span>
         <span>{{.StopString}}</span>
     </div>
     {{if .IsStopped}}
-    <div>{{.Duration}}</div>
+    <div class="text-right">{{.Duration}}</div>
     {{end}}
 </div>
 <div class="divider"></div>

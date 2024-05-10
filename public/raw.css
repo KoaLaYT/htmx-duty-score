@@ -2,16 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+    body {
+        font-family: "Ubuntu Sans"
+    }
+}
+
 @layer utilities {
 
-.htmx-indicator{
-    display:none;
-}
-.htmx-request.htmx-indicator{
-    display:inline;
-}
-.htmx-request.htmx-indicator{
-    display:inline;
-}
+    .htmx-indicator{
+        display:none;
+    }
+    .htmx-request.htmx-indicator{
+        display:inline;
+    }
+    .htmx-request.htmx-indicator{
+        display:inline;
+    }
 
 }
