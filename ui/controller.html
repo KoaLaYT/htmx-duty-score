@@ -1,0 +1,58 @@
+{{define "controller-start"}}
+<div id="controller" class="flex justify-between px-16" hx-disabled-elt="button">
+    <button hx-post="/timing/consume"
+            hx-target="#controller"
+            hx-swap="outerHTML"
+            class="btn btn-primary w-32 relative">
+        Consume
+    </button>
+    <button hx-post="/timing/topup"
+            hx-target="#controller"
+            hx-swap="outerHTML"
+            class="btn btn-accent w-32">
+        Top up
+    </button>
+</div>
+{{if .}}
+{{template "timing-replace" .Timing}}
+{{template "score" .Score}}
+{{end}}
+{{end}}
+
+{{define "controller-consume"}}
+<div id="controller" class="w-full flex justify-between px-16">
+    <button hx-post="/timing/stop"
+            hx-target="#controller"
+            hx-swap="outerHTML"
+            hx-disabled-elt="this"
+            class="btn btn-secondary w-32">
+        Stop
+    </button>
+    <button class="btn w-32 cursor-not-allowed" disabled>
+        Top up
+    </button>
+</div>
+{{if .}}
+{{template "timing-append" .Timing}}
+{{template "score" .Score}}
+{{end}}
+{{end}}
+
+{{define "controller-topup"}}
+<div id="controller" class="w-full flex justify-between px-16">
+    <button class="btn w-32 cursor-not-allowed" disabled>
+       Consume 
+    </button>
+    <button hx-post="/timing/stop"
+            hx-target="#controller"
+            hx-swap="outerHTML"
+            hx-disabled-elt="this"
+            class="btn btn-secondary w-32">
+        Stop
+    </button>
+</div>
+{{if .}}
+{{template "timing-append" .Timing}}
+{{template "score" .Score}}
+{{end}}
+{{end}}

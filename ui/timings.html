@@ -1,0 +1,37 @@
+{{define "timings"}}
+<div id="timings"
+     class="flex flex-col items-center px-4">
+    {{range .}}
+    {{template "timing" .}}
+    {{end}}
+</div>
+{{end}}
+
+{{define "timing"}}
+<div class="w-full grid grid-cols-[2fr_1fr] font-bold">
+    <div>
+        <span>{{.StartString}}</span>
+        <span>-</span>
+        <span>{{.StopString}}</span>
+    </div>
+    {{if .IsStopped}}
+    <div>{{.Duration}}</div>
+    {{end}}
+</div>
+<div class="divider"></div>
+{{end}}
+
+{{define "timing-append"}}
+<div hx-swap-oob="beforeend:#timings">
+    <div class="w-full">
+        {{template "timing" .}}
+    </div>
+</div>
+{{end}}
+
+{{define "timing-replace"}}
+<div hx-swap-oob="outerHTML:#timings>div:last-child"
+     class="w-full">
+     {{template "timing" .}}
+</div>
+{{end}}

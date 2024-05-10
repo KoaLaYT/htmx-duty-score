@@ -1,0 +1,37 @@
+{{define "index"}}
+<!DOCTYPE html>
+<html lang="en" data-theme="cupcake">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Duty Scores</title>
+  <link 
+      href="/public/styles.css" 
+      rel="stylesheet" />
+  <script src="/public/dev.js"></script>
+  <script src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous"></script>
+</head>
+
+<body class="flex justify-center">
+    <!-- HOW TO DO Client side error handling -->
+    <div class="w-full max-w-screen-sm" hx-on:htmx:response-error="console.error(event)">
+        <div class="flex items-center justify-between py-8">
+            <div class="text-2xl font-bold">Duty Score</div>
+            {{template "score" .Score}}
+        </div>
+
+        {{template "timings" .Timings}}
+
+        {{if eq .Templ "controller-start"}}
+        {{template "controller-start"}}
+        {{else if eq .Templ "controller-consume"}}
+        {{template "controller-consume"}}
+        {{else if eq .Templ "controller-topup"}}
+        {{template "controller-topup"}}
+        {{end}}
+        </div>
+    </div>
+</body>
+</html>
+{{end}}
