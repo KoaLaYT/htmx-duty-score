@@ -8,17 +8,19 @@
 {{end}}
 
 {{define "timing"}}
-<div class="w-full grid grid-cols-[2fr_1fr]">
-    <div>
-        <span>{{.StartString}}</span>
-        <span>-</span>
-        <span>{{.StopString}}</span>
+<div class="w-full">
+    <div class="w-full grid grid-cols-[2fr_1fr]">
+        <div>
+            <span>{{.StartString}}</span>
+            <span>-</span>
+            <span>{{.StopString}}</span>
+        </div>
+        {{if .IsStopped}}
+        <div class="text-right">{{.Duration}}</div>
+        {{end}}
     </div>
-    {{if .IsStopped}}
-    <div class="text-right">{{.Duration}}</div>
-    {{end}}
+    <div class="divider"></div>
 </div>
-<div class="divider"></div>
 {{end}}
 
 {{define "timing-append"}}
