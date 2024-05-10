@@ -33,16 +33,14 @@ func (s *server) InitRoutes(e *echo.Echo) {
 func (s *server) handleIndex(c echo.Context) error {
 	score, hasMinus := s.score()
 	polling := false
+	last := s.lastTiming()
 	templ := "controller-start"
-	if len(s.timings) > 0 {
-		last := s.timings[len(s.timings)-1]
-		if !last.IsStopped() {
-			polling = true
-			if last.TimeType == CONSUME {
-				templ = "controller-consume"
-			} else {
-				templ = "controller-topup"
-			}
+	if last != nil && !last.IsStopped() {
+		polling = true
+		if last.TimeType == CONSUME {
+			templ = "controller-consume"
+		} else {
+			templ = "controller-topup"
 		}
 	}
 	return c.Render(http.StatusOK, "index", map[string]any{
@@ -101,15 +99,13 @@ func (s *server) handleStopTime(c echo.Context) error {
 
 func (s *server) score() (string, bool) {
 	d := s.duration
-	if len(s.timings) > 0 {
-		last := s.lastTiming()
-		if !last.IsStopped() {
-			delta := time.Now().Sub(last.Start)
-			if last.TimeType == CONSUME {
-				d -= delta
-			} else {
-				d += delta
-			}
+	last := s.lastTiming()
+	if last != nil && !last.IsStopped() {
+		delta := time.Now().Sub(last.Start)
+		if last.TimeType == CONSUME {
+			d -= delta
+		} else {
+			d += delta
 		}
 	}
 	d = d.Truncate(time.Second)
@@ -122,15 +118,13 @@ func (s *server) score() (string, bool) {
 
 func (s *server) stopLastTiming() *Timing {
 	last := s.lastTiming()
-	if last != nil {
-		if last.Stop.IsZero() {
-			last.Stop = time.Now()
-			delta := last.Stop.Sub(last.Start)
-			if last.TimeType == CONSUME {
-				s.duration -= delta
-			} else {
-				s.duration += delta
-			}
+	if last != nil && last.Stop.IsZero() {
+		last.Stop = time.Now()
+		delta := last.Stop.Sub(last.Start)
+		if last.TimeType == CONSUME {
+			s.duration -= delta
+		} else {
+			s.duration += delta
 		}
 	}
 	return last
